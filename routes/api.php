@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\TaskController;
 
 // Rutas públicas
 Route::prefix('auth')->group(function () {
@@ -20,4 +21,7 @@ Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('projects', ProjectController::class);
+    Route::apiResource('projects.tasks', TaskController::class)->scoped([
+        'task' => 'id'
+    ]);
 });
