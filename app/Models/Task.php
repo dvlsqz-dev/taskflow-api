@@ -33,4 +33,14 @@ class Task extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function scopeOfProject($query, $projectId)
+    {
+        return $query->where('project_id', $projectId);
+    }
+
+    public function scopeOfStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
 }
