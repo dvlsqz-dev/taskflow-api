@@ -41,7 +41,7 @@ class AuthController extends Controller
         ]);
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return ApiResponse::error('Invalid credentials', 401);
+            return ApiResponse::error('Invalid credentials',null, 401);
         }
 
         $user = Auth::user();
@@ -59,7 +59,7 @@ class AuthController extends Controller
         return ApiResponse::success(null, 'User logged out successfully' , 200);
     }
 
-    public function me(){
-        return ApiResponse::success(auth()->user(), 'User details retrieved successfully', 200);
+    public function me(Request $request){
+        return ApiResponse::success($request->user(), 'User details retrieved successfully', 200);
     }
 }
