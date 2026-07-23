@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->prefix('auth')->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('projects', ProjectController::class);
+    Route::get('/projects/{project}/report', [ProjectController::class, 'exportReport']);
     Route::apiResource('projects.tasks', TaskController::class)->scoped([
         'task' => 'id'
     ]);

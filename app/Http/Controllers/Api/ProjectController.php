@@ -10,6 +10,7 @@ use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProjectController extends Controller
 {
@@ -71,4 +72,18 @@ class ProjectController extends Controller
 
         return ApiResponse::success(null, 'Project deleted successfully');
     }
-            }
+
+    public function exportReport(Project $project)
+    {
+        $this->authorize('view', $project);
+
+        $project->load('tasks'); // carga las tareas relacionadas
+
+        $pdf = Pdf::loadView('reports.project', [
+            'project' => $project,
+            'tasks' => $project->tasks,
+        ]);
+
+        return $pdf->download("proyecto-{$project->id}.pdf");
+    }
+}
